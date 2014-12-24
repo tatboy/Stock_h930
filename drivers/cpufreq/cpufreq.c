@@ -2638,9 +2638,12 @@ static struct syscore_ops cpufreq_syscore_ops = {
 	.shutdown = cpufreq_suspend,
 };
 
+<<<<<<< HEAD
 struct kobject *cpufreq_global_kobject;
 EXPORT_SYMBOL(cpufreq_global_kobject);
 
+=======
+>>>>>>> b58b4e5... cpufreq: suspend cpufreq governors on shutdown
 static int __init cpufreq_core_init(void)
 {
 	if (cpufreq_disabled())
