@@ -388,24 +388,36 @@ extern void _memset_io(volatile void __iomem *, int, size_t);
 static inline void memset_io(volatile void __iomem *dst, unsigned c,
 	size_t count)
 {
+<<<<<<< HEAD
 	extern void mmioset(void *, unsigned int, size_t);
 	mmioset((void __force *)dst, c, count);
+=======
+	memset((void __force *)dst, c, count);
+>>>>>>> 53f7ef2... ARM: optimize memset_io()/memcpy_fromio()/memcpy_toio()
 }
 #define memset_io(dst,c,count) memset_io(dst,c,count)
 
 static inline void memcpy_fromio(void *to, const volatile void __iomem *from,
 	size_t count)
 {
+<<<<<<< HEAD
 	extern void mmiocpy(void *, const void *, size_t);
 	mmiocpy(to, (const void __force *)from, count);
+=======
+	memcpy(to, (const void __force *)from, count);
+>>>>>>> 53f7ef2... ARM: optimize memset_io()/memcpy_fromio()/memcpy_toio()
 }
 #define memcpy_fromio(to,from,count) memcpy_fromio(to,from,count)
 
 static inline void memcpy_toio(volatile void __iomem *to, const void *from,
 	size_t count)
 {
+<<<<<<< HEAD
 	extern void mmiocpy(void *, const void *, size_t);
 	mmiocpy((void __force *)to, from, count);
+=======
+	memcpy((void __force *)to, from, count);
+>>>>>>> 53f7ef2... ARM: optimize memset_io()/memcpy_fromio()/memcpy_toio()
 }
 #define memcpy_toio(to,from,count) memcpy_toio(to,from,count)
 
