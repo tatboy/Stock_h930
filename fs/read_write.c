@@ -464,7 +464,30 @@ ssize_t vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
 
 EXPORT_SYMBOL(vfs_read);
 
+<<<<<<< HEAD
 static ssize_t new_sync_write(struct file *filp, const char __user *buf, size_t len, loff_t *ppos)
+=======
+ssize_t do_sync_write(struct file *filp, const char __user *buf, size_t len, loff_t *ppos)
+{
+	struct iovec iov = { .iov_base = (void __user *)buf, .iov_len = len };
+	struct kiocb kiocb;
+	ssize_t ret;
+
+	init_sync_kiocb(&kiocb, filp);
+	kiocb.ki_pos = *ppos;
+	kiocb.ki_nbytes = len;
+
+	ret = filp->f_op->aio_write(&kiocb, &iov, 1, *ppos);
+	if (-EIOCBQUEUED == ret)
+		ret = wait_on_sync_kiocb(&kiocb);
+	*ppos = kiocb.ki_pos;
+	return ret;
+}
+
+EXPORT_SYMBOL(do_sync_write);
+
+ssize_t new_sync_write(struct file *filp, const char __user *buf, size_t len, loff_t *ppos)
+>>>>>>> 36da456... fs: Workaround the compiler's bad optimization
 {
 	struct iovec iov = { .iov_base = (void __user *)buf, .iov_len = len };
 	struct kiocb kiocb;
